@@ -12,8 +12,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\CreateNodeEvent' => [
+            'App\Listeners\CreateNodeEventListener',
+        ],
+        'App\Events\UpdateNodeEvent' => [
+            'App\Listeners\UpdateNodeEventListener',
+        ],
+        'App\Events\DeleteNodeEvent' => [
+            'App\Listeners\DeleteNodeEventListener',
+        ],
+        'App\Events\ConnectNodeEvent' => [
+            'App\Listeners\ConnectNodeEventListener',
         ],
     ];
 }
