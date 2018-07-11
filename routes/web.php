@@ -14,3 +14,14 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api', 'namespace' => 'Api'], function () use ($router) {
+    $router->post('nodes/connect', 'NodeController@connect');
+    $router->get('nodes/paths', 'NodeController@shortestPath');
+
+    $router->post('nodes', 'NodeController@store');
+
+//    $router->resource('nodes', 'NodeController', ['only' => [
+//        'index', 'store', 'show', 'update', 'destroy'
+//    ]]);
+});
