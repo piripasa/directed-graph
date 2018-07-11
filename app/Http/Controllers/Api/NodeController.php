@@ -7,12 +7,12 @@ use App\Http\Requests\ConnectNodeRequest;
 use App\Http\Requests\CreateNodeRequest;
 use App\Http\Requests\ShortestPathRequest;
 use App\Http\Requests\UpdateNodeRequest;
-//use App\Services\EdgeService;
 use App\Services\NodeService;
 use App\Transformers\EdgeTransformer;
 use App\Transformers\NodeTransformer;
 use App\Transformers\PathTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class NodeController extends Controller
 {
@@ -37,11 +37,11 @@ class NodeController extends Controller
         $response = $this->nodeService->getNodeList($request);
 
         if ($request->get('node_id', false)) {
-            return response()->success(
+            return Response::success(
                 $this->edgeTransformer->transformCollection($response)
             );
         }
-        return response()->success(
+        return Response::success(
             $this->nodeTransformer->transformCollection($response)
         );
     }
@@ -54,7 +54,7 @@ class NodeController extends Controller
      */
     public function store(CreateNodeRequest $request)
     {
-        return response()->created([
+        return Response::created([
             'message' => 'Node created',
             'data' => $this->nodeTransformer->transform($this->nodeService->sanitizeAndInsertNodeInformation($request))
         ]);
@@ -68,7 +68,7 @@ class NodeController extends Controller
      */
     public function show($id)
     {
-        return response()->success(
+        return Response::success(
             $this->nodeTransformer->transform($this->nodeService->getSingleNode($id))
         );
     }
@@ -82,7 +82,7 @@ class NodeController extends Controller
      */
     public function update(UpdateNodeRequest $request, $id)
     {
-        return response()->success([
+        return Response::success([
             'message' => 'Node updated',
             'data' => $this->nodeTransformer->transform($this->nodeService->sanitizeAndUpdateNodeInformation($request, $id))
         ]);
@@ -96,7 +96,7 @@ class NodeController extends Controller
      */
     public function destroy($id)
     {
-        return response()->success([
+        return Response::success([
             'message' => 'Node deleted',
             'data' => $this->nodeTransformer->transform($this->nodeService->deleteNode($id))
         ]);
@@ -106,11 +106,11 @@ class NodeController extends Controller
     {
 
         if ($this->nodeService->connectNode($request->post('from_node'), $request->post('to_node')))
-            return response()->success([
+            return Response::success([
                 'message' => 'Node connected'
             ]);
 
-        return response()->error([
+        return Response::error([
             'message' => 'Something went wrong'
         ]);
     }
@@ -120,13 +120,13 @@ class NodeController extends Controller
         $response = $this->nodeService->getShortestPath($request->get('from_node'), $request->get('to_node'));
 
         if (!empty($response)) {
-            return response()->success([
+            return Response::success([
                 'message' => 'Path found',
                 'data' => app(PathTransformer::class)->transform($response)
             ]);
         }
 
-        return response()->error([
+        return Response::error([
             'message' => 'Path not fond'
         ]);
     }
