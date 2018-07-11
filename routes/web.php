@@ -19,9 +19,9 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function () use ($rout
     $router->post('nodes/connect', 'NodeController@connect');
     $router->get('nodes/paths', 'NodeController@shortestPath');
 
+    $router->get('nodes', 'NodeController@index');
     $router->post('nodes', 'NodeController@store');
-
-//    $router->resource('nodes', 'NodeController', ['only' => [
-//        'index', 'store', 'show', 'update', 'destroy'
-//    ]]);
+    $router->get('nodes/{id}', 'NodeController@show');
+    $router->put('nodes/{id}', 'NodeController@update');
+    $router->delete('nodes/{id}', 'NodeController@destroy');
 });

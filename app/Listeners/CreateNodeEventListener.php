@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\CreateNodeEvent;
 use App\Extensions\RedisHelper;
-use App\Transformers\NodeTransformer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
