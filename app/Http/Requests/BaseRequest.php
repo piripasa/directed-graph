@@ -12,7 +12,6 @@ use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
  */
 abstract class BaseRequest extends Request
 {
-    //use ApiRequestsTrait;
     use ProvidesConvenienceMethods;
 
     /**

@@ -3,11 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -17,7 +18,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        AuthorizationException::class,
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
@@ -40,11 +40,34 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        return parent::render($request, $e);
+        //return parent::render($request, $exception);
+        return $this->formatException($request, $exception);
+    }
+
+    private function formatException ($request, Exception $exception) {
+        $statusCode = 400;
+        $data = [];
+        switch (get_class($exception)) {
+            case NotFoundHttpException::class:
+                $statusCode = 404;
+                $data = [ 'route' => 'Invalid uri' ];
+                break;
+            case ValidationException::class:
+                $statusCode = 422;
+                foreach ($exception->errors() as $key => $value) {
+                    $data[$key] = $value[0];
+                }
+                break;
+            default:
+                $data = [ 'error' => $exception->getMessage() ];
+                break;
+        }
+
+        return Response::error($data, $statusCode);
     }
 }
