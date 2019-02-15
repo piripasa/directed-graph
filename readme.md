@@ -51,7 +51,7 @@ Make Sure you have installed in your PC:
 
 To do - RUN following from project terminal:
 
-- `cd graph_api/` into the project root directory.
+- `cd directory/` into the project root directory.
 - `cp .env.example .env` (DB, Redis config) 
 - `composer install`
 - `sudo chgrp -R www-data storage bootstrap/cache`
