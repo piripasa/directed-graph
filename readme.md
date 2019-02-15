@@ -1,21 +1,81 @@
-# Lumen PHP Framework
+## PHP Assessment Graph Service API
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+### Framework & tools
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+- Lumen 5.5 (PHP framework)
+- MySQL (for storage engine)
+- Redis & Socket.IO (for realtime update) 
+- Composer (for installing dependencies)
+- npm (for installing node dependencies)
 
-## Official Documentation
+Unit test cases: /tests/Unit/
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
 
-## Security Vulnerabilities
+### Installation
+This is a dockerized application. Do the following
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Make sure: 
+* `docker` & `docker-compose` installed in your PC.
 
-## License
+To do:
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+- `cd graph_api/` into the project root directory.
+- `docker-compose up -d --build`
+- `sudo docker ps` (to see the docker containers)
+- `sudo docker exec -it <php-container-id> /bin/sh`
+- `cp .env.docker .env`
+- `composer install`
+- `chgrp -R www-data storage bootstrap/cache`
+- `chmod -R ug+rwx storage bootstrap/cache`
+- `php artisan migrate`
+- `vendor/bin/phpunit` for PHPUnit test
+
+Modify redis host on file socket.js line 6 to redis
+ 
+ API base url `http://127.0.0.1:80`.
+
+
+#### Without Docker
+Make Sure you have installed in your PC:
+
+- PHP >= 7.0.0
+- MySQL >= 5.6
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- Composer (https://getcomposer.org/)
+- Redis
+- npm
+
+To do - RUN following from project terminal:
+
+- `cd graph_api/` into the project root directory.
+- `cp .env.example .env` (DB, Redis config) 
+- `composer install`
+- `sudo chgrp -R www-data storage bootstrap/cache`
+- `sudo chmod -R ug+rwx storage bootstrap/cache`
+- `php artisan migrate`
+- `vendor/bin/phpunit` for PHPUnit test
+- `npm install`
+- `node socket.js`
+- `php artisan serve` (separate terminal)
+
+ API base url `http://127.0.0.1:8000`.
+ 
+ 
+ 
+ ### Open base url in browser and see real time update
+ 
+ ### CheckList
+ 
+ - [x] CRUD REST API
+ - [x] Real time update
+ - [x] Get Shortest path​ ​between two nodes
+ - [x] Web client
+ - [x] API doc
+ 
+ #### Postman API collection (you may need to change base url)
+ https://www.getpostman.com/collections/563bc575971eb017ec99
+
