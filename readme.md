@@ -2,7 +2,7 @@
 
 ### Framework & tools
 
-- Lumen 5.5 (PHP framework)
+- Lumen 5.6 (PHP framework)
 - MySQL (for storage engine)
 - Redis & Socket.IO (for realtime update) 
 - Composer (for installing dependencies)
